@@ -1,4 +1,4 @@
-# unblock-worksheet
+# Protect/UnProtect Excel Worksheets
 Criado para remover a senha de planilhas diretamente pelo arquivo XML. Como apenas a SHA-512 da senha é armazenada, um arquivo .JSON é gerado para que possa-se proteger a senha novamente.
 
 # Instalação
