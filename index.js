@@ -38,7 +38,13 @@ ipcMain.on('protect-sheet', async (evt, args) => {
                         let data = JSON.parse(xml.xml2json(content, { compact: true }))
                         if (data.hasOwnProperty('worksheet')) {
                             data = xml.json2xml(data, {compact:true})
-                            let protection = {sheetProtection: passwords.filter(e => e.name === filename)[0].sheetProtection}
+                            let protection = null;
+                            try{
+                                protection = {sheetProtection: passwords.filter(e => e.name === filename)[0].sheetProtection}
+                            }catch{
+                                protection = null;
+                            }
+                            
                              
                             if (protection.sheetProtection != undefined && 
                                 protection.sheetProtection != null){
@@ -58,7 +64,6 @@ ipcMain.on('protect-sheet', async (evt, args) => {
                 })
             })
             Promise.all(Promises).then(() => {
-                console.log('entrei')
                 zip
                     .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
                     .pipe(fs.createWriteStream(args.wb))
@@ -66,14 +71,12 @@ ipcMain.on('protect-sheet', async (evt, args) => {
                         evt.reply('succ');
                     });
             }).catch((err)=>{
-                console.log(err);
                 evt.reply('err', "Ocorreu um erro inesperado")
             })
 
         })
 
     } catch (err) {
-        console.log(err)
         evt.reply("err", "Ocorreu um erro inesperado!")
     }
 })
@@ -119,7 +122,6 @@ ipcMain.on('unProtect-sheet', async (evt, args) => {
                         let ext = args.wb.substring(args.wb.lastIndexOf('.'));
 
                         fs.writeFile(args.wb.replace(ext, '.json'), JSON.stringify(passwords), function (err, succ) {
-                            console.log(err)
                             if (err) evt.reply('err', "Ocorreu um erro inesperado!")
                             else evt.reply('succ');
                         })
@@ -131,7 +133,6 @@ ipcMain.on('unProtect-sheet', async (evt, args) => {
         })
 
     } catch (err) {
-        console.log(err)
         evt.reply("err", "Ocorreu um erro inesperado!")
     }
 })
