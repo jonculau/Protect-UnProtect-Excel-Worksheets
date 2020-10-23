@@ -1,5 +1,6 @@
 var electronInstaller = require('electron-winstaller');
 
+console.log('Gerando o instalador...')
 var resultPromise = electronInstaller.createWindowsInstaller({
     appDirectory: './purgatorio-win32-x64',
     outputDirectory: './windows_installer',

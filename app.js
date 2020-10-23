@@ -12,7 +12,9 @@ function protect() {
     args.wb = document.getElementById("sheetFile").files.item(0).path;
     args.hashes = document.getElementById("PassWordFile").files.item(0).path;
     ipcRenderer.send('protect-sheet', args)
-    $('.modal').modal('show');
+    $('#loadingModal').modal('show');
+   
+
   } catch {
     if (args.wb === null) {
       swal({
@@ -39,7 +41,8 @@ function unProtect() {
   try {
     args.wb = document.getElementById("sheetFile").files.item(0).path;
     ipcRenderer.send('unProtect-sheet', args)
-    $('.modal').modal('show');
+    $('#loadingModal').modal('show').set;
+
   } catch {
     if (args.wb === null) {
       swal({
@@ -52,19 +55,28 @@ function unProtect() {
 }
 
 ipcRenderer.on("succ", (evt, args) => {
-  $('.modal').modal('hide');
-  swal({
-    title: "Sucesso",
-    icon: "success"
-  })
+
+  setTimeout(() => {
+    $('#loadingModal').modal('toggle');
+    swal({
+     title: "Sucesso",
+     icon: "success"
+   });
+  }, 500);
+
 })
 
-ipcRenderer.on("err", (evt, args) => {
-  $('.modal').modal('hide');
-  swal({
-    title: "Error",
-    message: args,
-    icon: "error"
-  })
+ipcRenderer.on("err",  (evt, args) => {
+
+
+
+  setTimeout(() => {
+    $('#loadingModal').modal('toggle');
+    swal({
+     title: "Error",
+     message:args,
+     icon: "err"
+   });
+  }, 500);
 
 })
