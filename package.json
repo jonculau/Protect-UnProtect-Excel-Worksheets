@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "win-build": "npx electron-packager ./ purgatorio  --platform=win32 --arch=x64 --icon=./icon.ico --overwrite && node ./installer.js"
+    "pack": "npx electron-packager ./ purgatorio  --platform=win32 --arch=x64 --icon=./icon.ico --overwrite",
+    "build": "npm run pack && node ./installer.js"
   },
   "author": "Jonathan Culau",
   "license": "ISC",
